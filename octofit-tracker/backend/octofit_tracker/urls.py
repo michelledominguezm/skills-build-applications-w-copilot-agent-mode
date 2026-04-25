@@ -33,7 +33,8 @@ router.register(r'leaderboard', views.LeaderboardViewSet)
 def api_base_url(request):
     codespace_name = os.environ.get('CODESPACE_NAME')
     if codespace_name:
-        base_url = f"https://{codespace_name}-8000.app.github.dev/api/"
+        # Use http to avoid certificate issues when accessing from Codespaces tunnel
+        base_url = f"http://{codespace_name}-8000.app.github.dev/api/"
     else:
         base_url = request.build_absolute_uri('/api/')
     return JsonResponse({"api_base_url": base_url})
